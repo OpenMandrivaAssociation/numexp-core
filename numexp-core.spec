@@ -1,4 +1,4 @@
-%define	version	0.11.0
+%define	version	0.14.1
 %define release	%mkrel 1
 
 %define major	0
@@ -126,5 +126,3 @@ rm -rf %{buildroot}
 %{_libdir}/lib*.la
 %{_libdir}/pkgconfig/*
 %{_includedir}/*
-
-
