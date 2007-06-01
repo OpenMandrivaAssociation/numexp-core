@@ -31,6 +31,7 @@ BuildRequires:	python-base
 BuildRequires:	perl-XML-LibXML
 BuildRequires:	perl-XML-DT >= 0.26
 BuildRequires:	perl-DB_File >= 1.803
+BuildRequires:	mpfr-devel
 Requires:	%{libname}%{major} = %{version}
 
 %description
@@ -67,8 +68,8 @@ It is necessary only if you want to compile programs that uses NumExp.
 %prep
 %setup -q
 %patch0 -p1 -b .emptyconfig
-%patch1 -p1 -b .db42
-%patch2 -p1 -b .gcc40
+#%patch1 -p1 -b .db42
+#%patch2 -p1 -b .gcc40
 
 # needed for db4.2 patch
 autoconf
