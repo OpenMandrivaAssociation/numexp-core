@@ -14,13 +14,9 @@ Group:		Sciences/Mathematics
 URL:		http://numexp.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
-Source:		http://prdownloads.sourceforge.net/numexp/%{name}-%{version}.tar.gz
-Patch0:		%{name}-0.8.0-empty-config.patch
-Patch1:		%{name}-0.10.0-db42.patch
-Patch2:		%{name}-0.11.0-gcc40.patch
+Source:		http://prdownloads.sourceforge.net/numexp/%{name}-%{version}.tar.bz2
 Patch3:		%{name}-0.16.0-Makefile-path.patch
 
-#BuildRequires:	db4.2-devel >= 4.2.52
 BuildRequires:	gmp-devel
 BuildRequires:	gsl-devel >= 1.4
 BuildRequires:	libbonobo2_x-devel
