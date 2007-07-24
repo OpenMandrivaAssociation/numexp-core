@@ -1,8 +1,9 @@
-%define	version	0.14.1
+%define	version	0.16.0
 %define release	%mkrel 1
 
 %define major	0
-%define libname %mklibname numexp
+%define libname %mklibname numexp %major
+%define develname %mklibname -d numexp
 
 Summary:	NumExp is a family of open-source applications for numeric computation
 Name:		numexp-core
@@ -11,14 +12,15 @@ Release:	%{release}
 License:	GPL
 Group:		Sciences/Mathematics
 URL:		http://numexp.sourceforge.net/
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
-Source:		http://prdownloads.sourceforge.net/numexp/%{name}-%{version}.tar.bz2
+Source:		http://prdownloads.sourceforge.net/numexp/%{name}-%{version}.tar.gz
 Patch0:		%{name}-0.8.0-empty-config.patch
 Patch1:		%{name}-0.10.0-db42.patch
 Patch2:		%{name}-0.11.0-gcc40.patch
+Patch3:		%{name}-0.16.0-Makefile-path.patch
 
-BuildRequires:	db4.2-devel >= 4.2.52
+#BuildRequires:	db4.2-devel >= 4.2.52
 BuildRequires:	gmp-devel
 BuildRequires:	gsl-devel >= 1.4
 BuildRequires:	libbonobo2_x-devel
@@ -26,13 +28,12 @@ BuildRequires:	readline-devel
 BuildRequires:	termcap-devel
 BuildRequires:	popt-devel
 BuildRequires:	flex
-BuildRequires:	bison
 BuildRequires:	python-base
 BuildRequires:	perl-XML-LibXML
 BuildRequires:	perl-XML-DT >= 0.26
 BuildRequires:	perl-DB_File >= 1.803
 BuildRequires:	mpfr-devel
-Requires:	%{libname}%{major} = %{version}
+Requires:	%{libname} = %{version}
 
 %description
 This package is part of the NumExp project, which could be described as a
@@ -41,53 +42,38 @@ mathematical computation environment or even as a programming language.
 It contains the backend kernel and a simple text client.
 No GUI or graphics are available here.
 
-%package	-n %{libname}%{major}
+%package	-n %{libname}
 Summary:	NumExp is a family of open-source applications for numeric computation
 Group:		Sciences/Mathematics
-Provides:	%{libname} = %{version}-%{release}
+Provides:	libnumexp = %{version}-%{release}
 Requires:	%{name} = %{version}
 
-%description	-n %{libname}%{major}
+%description	-n %{libname}
 This package is part of the NumExp project, which could be described as a
 mathematical computation environment or even as a programming language.
 
 It contains the core libraries, which are necessary for any application that
 uses NumExp.
 
-%package	-n %{libname}%{major}-devel
+%package	-n %{develname}
 Summary:	NumExp is a family of open-source applications for numeric computation
 Group:		Development/C
-Provides:	%{libname}-devel = %{version}-%{release}
+Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
-Requires:	%{libname}%{major} = %{version}
+Requires:	%{libname} = %{version}
+Obsoletes:	%{libname}-devel
 
-%description	-n %{libname}%{major}-devel
+%description	-n %{develname}
 This package contains header and development files of NumExp.
 It is necessary only if you want to compile programs that uses NumExp.
 
 %prep
 %setup -q
-%patch0 -p1 -b .emptyconfig
-#%patch1 -p1 -b .db42
-#%patch2 -p1 -b .gcc40
-
-# needed for db4.2 patch
-autoconf
+%patch3 -p0
 
 %build
-%configure2_5x \
-%if %{?_enable_debug_package:1}%{!?_enable_debug_package:0}
-	--enable-element-debug \
-	--enable-namespace-debug
-%endif
-
-# (Abel) let it regenerate all DB files
-find -name '*.db' -type f -print0 | xargs -r -0 rm -f
-
-%make
-
-# (Abel) bad threading behavior??
-LD_ASSUME_KERNEL=2.4.20 make check
+%configure2_5x
+%make -j1
 
 %install
 rm -rf %{buildroot}
@@ -102,8 +88,8 @@ rm -f %{buildroot}%{_libdir}/orbit-2.0/*.la \
 %clean
 rm -rf %{buildroot}
 
-%post -n %{libname}%{major} -p /sbin/ldconfig
-%postun -n %{libname}%{major} -p /sbin/ldconfig
+%post -n %{libname} -p /sbin/ldconfig
+%postun -n %{libname} -p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -115,12 +101,13 @@ rm -rf %{buildroot}
 %{_libdir}/orbit-2.0/*.so
 %{_datadir}/idl/*.idl
 %{_datadir}/%{name}
+%{_sysconfdir}/*
 
-%files -n %{libname}%{major}
+%files -n %{libname}
 %defattr(-,root,root)
 %{_libdir}/lib*.so.*
 
-%files -n %{libname}%{major}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %doc ChangeLog
 %{_libdir}/lib*.so
