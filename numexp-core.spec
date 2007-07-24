@@ -93,7 +93,7 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %{_libexecdir}/numexp-kernel
 %{_libdir}/bonobo/servers/*.server
-%{_libdir}/numexp
+%{_prefix}/lib/numexp
 %{_libdir}/orbit-2.0/*.so
 %{_datadir}/idl/*.idl
 %{_datadir}/%{name}
