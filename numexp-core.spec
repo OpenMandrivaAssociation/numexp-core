@@ -1,5 +1,5 @@
 %define	version	0.16.0
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 %define major	0
 %define libname %mklibname numexp %major
@@ -56,6 +56,8 @@ Summary:	NumExp is a family of open-source applications for numeric computation
 Group:		Development/C
 Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
+Provides:	numexp-devel = %{version}-%{release}
+Provides:	libnumexp-devel = %{version}-%{release}
 Requires:	%{libname} = %{version}
 Obsoletes:	%{libname}-devel
 
