@@ -5,7 +5,7 @@
 %define libname %mklibname numexp %major
 %define develname %mklibname -d numexp
 
-Summary:	NumExp is a family of open-source applications for numeric computation
+Summary:	Family of open-source applications for numeric computation
 Name:		numexp-core
 Version:	%{version}
 Release:	%{release}
@@ -39,7 +39,7 @@ It contains the backend kernel and a simple text client.
 No GUI or graphics are available here.
 
 %package	-n %{libname}
-Summary:	NumExp is a family of open-source applications for numeric computation
+Summary:	Family of open-source applications for numeric computation
 Group:		Sciences/Mathematics
 Provides:	libnumexp = %{version}-%{release}
 Requires:	%{name} = %{version}
@@ -52,7 +52,7 @@ It contains the core libraries, which are necessary for any application that
 uses NumExp.
 
 %package	-n %{develname}
-Summary:	NumExp is a family of open-source applications for numeric computation
+Summary:	Family of open-source applications for numeric computation
 Group:		Development/C
 Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
