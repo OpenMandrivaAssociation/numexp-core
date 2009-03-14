@@ -1,5 +1,5 @@
 %define	version	0.16.1
-%define release	%mkrel 4
+%define release	%mkrel 5
 
 %define major	0
 %define libname %mklibname numexp %major
@@ -15,6 +15,9 @@ URL:		http://numexp.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Source:		http://prdownloads.sourceforge.net/numexp/%{name}-%{version}.tar.bz2
+Patch0:		numexp-core-0.16.1-no-install-hook.patch
+Patch1:		numexp-core-0.16.1-fix-format-errors.patch
+Patch2:		numexp-core-0.16.1-fix-linking.patch
 Patch3:		%{name}-0.16.0-Makefile-path.patch
 
 BuildRequires:	gmp-devel
@@ -54,7 +57,6 @@ uses NumExp.
 %package	-n %{develname}
 Summary:	Family of open-source applications for numeric computation
 Group:		Development/C
-Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	numexp-devel = %{version}-%{release}
 Provides:	libnumexp-devel = %{version}-%{release}
@@ -67,11 +69,15 @@ It is necessary only if you want to compile programs that uses NumExp.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 %patch3 -p0
 
 %build
+autoreconf -fi
 %configure2_5x
-%make -j1
+%make
 
 %install
 rm -rf %{buildroot}
