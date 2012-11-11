@@ -1,0 +1,13 @@
+diff -Naur numexp-core-0.16.1/Makefile.am numexp-core-0.16.1-fix-linking/Makefile.am
+--- numexp-core-0.16.1/Makefile.am	2006-10-29 18:07:33.000000000 +0100
++++ numexp-core-0.16.1-fix-linking/Makefile.am	2009-03-14 01:08:38.000000000 +0100
+@@ -44,7 +44,8 @@
+ libnumexp_la_LIBADD = $(top_builddir)/kernel/libnumexp_kernel.la\
+  $(top_builddir)/kernel/types/libnumexp_types.la\
+  $(top_builddir)/kernel/polynomials/libnumexp_polynomials.la\
+- $(top_builddir)/parser/libnumexp_parser.la 
++ $(top_builddir)/parser/libnumexp_parser.la \
++ @NUMEXP_DEPS_LIBS@
+ 
+ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = numexp.pc

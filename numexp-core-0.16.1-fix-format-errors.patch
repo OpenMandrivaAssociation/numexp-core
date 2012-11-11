@@ -1,0 +1,102 @@
+diff -Naur --exclude '*~' numexp-core-0.16.1/bindings/bonobo/numexp-kernel.c numexp-core-0.16.1-fix-format-errors/bindings/bonobo/numexp-kernel.c
+--- numexp-core-0.16.1/bindings/bonobo/numexp-kernel.c	2007-07-24 21:59:16.000000000 +0200
++++ numexp-core-0.16.1-fix-format-errors/bindings/bonobo/numexp-kernel.c	2009-03-14 01:18:39.000000000 +0100
+@@ -396,12 +396,12 @@
+ 	if (CORBA_TypeCode_equal(ev->_any._type, TC_Numexp_EvalError, NULL)) {
+ 	    /* Evaluation error */
+ 	    Numexp_EvalError *err = (Numexp_EvalError *) ev->_any._value;
+-	    g_set_error(error, nxp_error_domain, NXP_ERROR_ERROR, err->detail);	    
++	    g_set_error(error, nxp_error_domain, NXP_ERROR_ERROR, "%s", err->detail);	    
+ 	    return;
+ 	} else if (CORBA_TypeCode_equal(ev->_any._type, TC_Numexp_ParseError, NULL)) {
+ 	    /* Parsing error */
+ 	    Numexp_ParseError *err = (Numexp_ParseError *) ev->_any._value;
+-	    g_set_error(error, EXP_PARSE_ERROR_DOMAIN, EXP_PARSE_ERROR, err->detail);
++	    g_set_error(error, EXP_PARSE_ERROR_DOMAIN, EXP_PARSE_ERROR, "%s", err->detail);
+ 	    return;
+ 	} else if (CORBA_TypeCode_equal(ev->_any._type, TC_Numexp_NameError, NULL)) {
+ 	    /* Name error */
+diff -Naur --exclude '*~' numexp-core-0.16.1/functions/functions.c numexp-core-0.16.1-fix-format-errors/functions/functions.c
+--- numexp-core-0.16.1/functions/functions.c	2007-07-22 15:25:29.000000000 +0200
++++ numexp-core-0.16.1-fix-format-errors/functions/functions.c	2009-03-14 01:14:55.000000000 +0100
+@@ -163,7 +163,7 @@
+     char *help = NULL;
+     help = nxp_help(topic->string, context);
+     help = removeTags(help);
+-    nxp_output_message(context, help);
++    nxp_output_message(context, "%s", help);
+ 
+     return nxp_element_void_new();
+ 
+@@ -184,7 +184,7 @@
+ 	    help = nxp_help(nxp_identifier_to_string(id->ident),
+                             context);
+ 	    help = removeTags(help);
+-	    nxp_output_message(context, help);
++	    nxp_output_message(context, "%s", help);
+ 	} else {
+ 	    def = g_hash_table_lookup(ns->definitions, name);
+ 	    if (def) {
+@@ -193,7 +193,7 @@
+ 		help = nxp_help(fullpath->str, context);
+ 		g_string_free(fullpath, TRUE);
+ 		help = removeTags(help);
+-		nxp_output_message(context, help);
++		nxp_output_message(context, "%s", help);
+ 	    } else {
+ 		nxp_output_message(context, _("No help about '%s'"), nxp_identifier_to_string(id->ident));
+ 	    }
+diff -Naur --exclude '*~' numexp-core-0.16.1/kernel/element.c numexp-core-0.16.1-fix-format-errors/kernel/element.c
+--- numexp-core-0.16.1/kernel/element.c	2007-06-16 13:01:19.000000000 +0200
++++ numexp-core-0.16.1-fix-format-errors/kernel/element.c	2009-03-14 00:44:30.000000000 +0100
+@@ -500,7 +500,7 @@
+ 	return ele;
+     } else
+ 	g_set_error(error, nxp_error_domain, NXP_ERROR_NOT_IMPLEMENTED,
+-		    NXP_ELEMENT_GET_TYPE_NAME(el));
++		    "%s", NXP_ELEMENT_GET_TYPE_NAME(el));
+     return NULL;
+ }
+ 
+diff -Naur --exclude '*~' numexp-core-0.16.1/kernel/nxp_kernel.c numexp-core-0.16.1-fix-format-errors/kernel/nxp_kernel.c
+--- numexp-core-0.16.1/kernel/nxp_kernel.c	2007-06-16 13:01:19.000000000 +0200
++++ numexp-core-0.16.1-fix-format-errors/kernel/nxp_kernel.c	2009-03-14 00:47:35.000000000 +0100
+@@ -52,7 +52,7 @@
+     nxp_types_init(&error);
+     nxp_prototypes_init();
+     // We shouldn't do this, this way...
+-    if (error) g_error(error->message);
++    if (error) g_error("%s", error->message);
+ 
+     exp_parser_init();
+ 
+@@ -74,7 +74,7 @@
+ 	NxpElement *el;
+ 	el = nxp_files_load(rcfile, context, &error);
+ 	if (error) {
+-	    g_message(error->message);
++	    g_message("%s", error->message);
+ 	    g_error_free(error);
+ 	} else {
+ 	    if (el) NXP_ELEMENT_UNREF(el);
+@@ -85,7 +85,7 @@
+ 	el = nxp_files_rc_load(context, &error);
+ 
+ 	if (error) {
+-	    g_message(error->message);
++	    g_message("%s", error->message);
+ 	    g_error_free(error);
+ 	} else {
+ 	    if (el) NXP_ELEMENT_UNREF(el);
+diff -Naur --exclude '*~' numexp-core-0.16.1/parser/files.c numexp-core-0.16.1-fix-format-errors/parser/files.c
+--- numexp-core-0.16.1/parser/files.c	2007-06-16 13:01:20.000000000 +0200
++++ numexp-core-0.16.1-fix-format-errors/parser/files.c	2009-03-14 00:54:04.000000000 +0100
+@@ -32,7 +32,7 @@
+     g_return_val_if_fail(file, NULL);
+     if (!g_file_get_contents(file, &contents, NULL, &err1)) {
+ 	g_set_error(error, nxp_error_domain, NXP_ERROR_FILE_NOT_FOUND,
+-		    g_strdup(err1->message));
++		    "%s", g_strdup(err1->message));
+ 	g_error_free(err1);
+ 	return NULL;
+     }

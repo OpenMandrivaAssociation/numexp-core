@@ -1,0 +1,18 @@
+diff -Naur --exclude '*~' numexp-core-0.16.1/Makefile.am numexp-core-0.16.1-no-install-hook/Makefile.am
+--- numexp-core-0.16.1/Makefile.am	2006-10-29 18:07:33.000000000 +0100
++++ numexp-core-0.16.1-no-install-hook/Makefile.am	2009-03-14 01:22:55.000000000 +0100
+@@ -5,14 +5,6 @@
+ 
+ docdir = @NUMEXP_DOCS_DIR@
+ 
+-install-data-hook: docs.stamp
+-	chmod +w $(docdir)
+-	cp -r $(srcdir)/docs $(docdir)
+-
+-uninstall-local:
+-	chmod +w -R $(docdir)/docs
+-	rm -fr $(docdir)/docs
+-
+ EXTRA_DIST=numexp.pc.in nxp_config.h-new.in THANKS i18n.h docs docs.stamp
+ 
+ DISTCLEANFILES=nxp_config.h

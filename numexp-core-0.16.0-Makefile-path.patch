@@ -1,0 +1,19 @@
+--- Makefile.in~	2007-07-22 21:30:20.000000000 +0800
++++ Makefile.in	2007-07-24 13:55:08.000000000 +0800
+@@ -888,12 +888,12 @@
+ 
+ 
+ install-data-hook: docs.stamp
+-	chmod +w $(docdir)
+-	cp -r $(srcdir)/docs $(docdir)
++	chmod +w $(DESTDIR)$(docdir)
++	cp -r $(srcdir)/docs $(DESTDIR)$(docdir)
+ 
+ uninstall-local:
+-	chmod +w -R $(docdir)/docs
+-	rm -fr $(docdir)/docs
++	chmod +w -R $(DESTDIR)$(docdir)/docs
++	rm -fr $(DESTDIR)$(docdir)/docs
+ 
+ @MAINTAINER_MODE_TRUE@docs.stamp docs: $(top_srcdir)/misc/mkdocs.pl $(top_srcdir)/misc/help.css $(srcdir)/modules/stdlib/stdlib.xml $(srcdir)/modules/mathml/mathml.xml $(srcdir)/modules/latex/latex.xml $(srcdir)/modules/gsl/gsl.xml $(srcdir)/functions/builtin.xml $(srcdir)/misc/language.xml
+ @MAINTAINER_MODE_TRUE@	$(top_srcdir)/misc/mkdocs.pl $(srcdir)/docs $(srcdir)/modules/stdlib/stdlib.xml @NUMEXP_MODULES_DIR@
