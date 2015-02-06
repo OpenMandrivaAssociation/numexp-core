@@ -1,5 +1,5 @@
 %define	version	0.16.1
-%define release	%mkrel 7
+%define release	8
 
 %define major	0
 %define libname %mklibname numexp %major
