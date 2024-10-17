@@ -11,7 +11,7 @@ Version:	%{version}
 Release:	%{release}
 License:	GPL
 Group:		Sciences/Mathematics
-URL:		http://numexp.sourceforge.net/
+URL:		https://numexp.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Source:		http://prdownloads.sourceforge.net/numexp/%{name}-%{version}.tar.bz2
