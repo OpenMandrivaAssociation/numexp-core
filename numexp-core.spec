@@ -20,6 +20,11 @@ Patch1:		numexp-core-0.16.1-fix-format-errors.patch
 Patch2:		numexp-core-0.16.1-fix-linking.patch
 Patch3:		%{name}-0.16.0-Makefile-path.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	gmp-devel
 BuildRequires:	gsl-devel >= 1.4
 BuildRequires:	libbonobo2_x-devel
